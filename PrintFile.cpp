@@ -1,54 +1,57 @@
 #include "HeaderFile.h"
 
-vector<VehicleOwner> readCSVFile(const string& fname) {
-    vector<VehicleOwner> result;
+vector<CarReport> readCSVFile(const string& fname) {
+    vector<CarReport> result;
     ifstream file(fname);
+
     if (!file.is_open()) {
         cerr << "Error opening file: " << fname << endl;
         return result;
     }
+
     string line;
-    getline(file, line);
-    while (getline(file, line))
-     {
+    getline(file, line); // Read and discard the header line
+
+    while (getline(file, line)) {
         stringstream ss(line);
-        VehicleOwner owner;
-        getline(ss, owner.vehicleNo, ',');
+        CarReport report;
+        getline(ss, report.carNumber, ',');
         string sno;
         getline(ss, sno, ',');
-        owner.vehicleNo += "-"+ sno;
-        getline(ss, owner.firstName, ',');
-        getline(ss, owner.lastName, ',');
-        getline(ss, owner.age, ',');
-        getline(ss, owner.gender, ',');
-        getline(ss, owner.address, ',');
-        result.push_back(owner);
+        report.carNumber += "-"+ sno;
+
+        
+        getline(ss, report.reportType, ',');
+        getline(ss, report.reportLocation, ',');
+
+        result.push_back(report);
     }
+
     file.close();
     return result;
 }
-void changeOwner(vector<VehicleOwner>& owners, const string& vNumber,UserDetails newUser) {
-    for (auto& owner : owners) {
-        if (owner.vehicleNo == vNumber) {
-            cout << " Manipulating details for Vehicle Number: " << vNumber << endl;
-            owner.firstName = newUser.firstName;
-            owner.lastName = newUser.lastName;
-            owner.age = newUser.age;
-            owner.gender = newUser.gender;
-            owner.address = newUser.address;
-            cout << "Owner details updated successfully." << endl;
+
+void updateLoaction(vector<CarReport>& reports, const string& vNumber,CarReport newReport  ){
+    for (auto& report : reports) {
+        if (report.carNumber == vNumber) {
+            cout << "Updating Record details for Vehicle Number: " << vNumber << endl;
+
+            // Update owner details with new user details
+            report.reportLocation = newReport.reportLocation;
+
+            cout << "Report details updated successfully." << endl;
             return;
         }
     }
     cout << "Vehicle with Number: " << vNumber << " not found in the records." << endl;
 }
-void printOwnerDetails(const vector<VehicleOwner>& owners, const string& vNumber) {
-    for (const auto& owner : owners) {
-        if (owner.vehicleNo == vNumber) {
-            cout << "Vehicle Owner Found!" << endl;
-            owner.details();
+void printOwnerDetails(const vector<CarReport>& reports, const string& vNumber) {
+    for (const auto& report : reports) {
+        if (report.carNumber == vNumber) {
+            cout << "Vehicle Report Found!" << endl;
+            report.details();
             return;
         }
     }
-    cout << "Vehicle" << vNumber << "not present in the records." << endl;
+    cout << "Report with vehicle Number: " << vNumber << " not found in the records." << endl;
 }

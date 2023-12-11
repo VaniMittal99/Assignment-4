@@ -5,31 +5,20 @@
 
 using namespace std;
 
-class VehicleDetails {
+class CarReport {
 public:
-    string vehicleNo;
-};
+    string carNumber;
+    string reportType;
+    string reportLocation;
 
-class UserDetails {
-public:
-    string firstName;
-    string lastName;
-    string age;
-    string gender;
-    string address;
-};
-
-
-//class veichleOwner inherits UserDetails and VechileDetails   
-class VehicleOwner : public UserDetails, public VehicleDetails {
-public:
     void details() const {
-        cout << "Vehicle Number: " << vehicleNo << endl;
-        cout << "Owner Name: " << firstName<<" "<< lastName << endl;
-        cout << "Age: " << age << " Gender: " << gender<<" Address: " << address << endl << endl;
+        cout << "Car Number: " << carNumber << endl;
+        cout << "Report Type: " << reportType << endl;
+        cout << "Report Location: " << reportLocation << endl << endl;
     }
 };
+
 //function declaration
-vector<VehicleOwner> readCSVFile(const string& csv);
-void changeOwner(vector<VehicleOwner>& owners, const string& vNumber,UserDetails newUser);
-void printOwnerDetails(const vector<VehicleOwner>& owners,const string& vNumber);
+vector<CarReport> readCSVFile(const string& csv);
+void updateLoaction(vector<CarReport>& reports, const string& vNumber,CarReport );
+void printOwnerDetails(const vector<CarReport>& reports,const string& vNumber);

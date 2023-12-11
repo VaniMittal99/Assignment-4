@@ -1,82 +1,58 @@
 #include "HeaderFile.h"
-
-void displayMenu(const vector<VehicleOwner>& owners);
-UserDetails getNewUserDetails();
-
-int main() {
-    string filename = "Q1_A4.csv";
-    vector<VehicleOwner> owners = readCSVFile(filename);
-
+void displayMenu(const vector<CarReport>& reports);
+void updateRecords(vector<CarReport>& reports);
+int main() 
+{
+    string filename = "Q2_A4.csv";
+    vector<CarReport> reports = readCSVFile(filename);
     int choice;
-    string vNumber;
-    UserDetails newUser;
-
-    do {
-        displayMenu(owners);
+    do 
+    {
+        displayMenu(reports);
         cout << "Enter your choice: ";
         cin >> choice;
-
-        switch (choice) {
+        switch (choice) 
+        {
             case 1:
-                // Display CSV
-                for (const auto &owner : owners) {
-                    owner.details();
+                for (const auto& report : reports) 
+                {
+                    report.details();
                 }
                 break;
-
             case 2:
-                // Enter Vehicle Number
+                string vNumber;
                 cout << "Enter Vehicle Number: ";
                 cin >> vNumber;
-                printOwnerDetails(owners, vNumber);
+                printOwnerDetails(reports, vNumber);
                 break;
-
             case 3:
-                // Update Owner Details
-                cout << "Enter Vehicle Number for the owner you want to update: ";
-                cin >> vNumber;
-
-                newUser = getNewUserDetails();
-                changeOwner(owners, vNumber, newUser);
+                updateRecords(reports);
                 break;
-
             case 4:
-                // Exit
-                cout << "Shutting down..." << endl;
+                cout << "EXIT" << endl;
                 break;
-
             default:
                 cout << "Enter a valid option." << endl;
         }
-
-    } while (choice != 4);
-
+    } 
+    while (choice != 4);
     return 0;
 }
-
-void displayMenu(const vector<VehicleOwner>& owners) {
-    cout << "Menu:" << endl;
-    cout << "1. Display CSV" << endl;
-    cout << "2. Enter Vehicle Number" << endl;
-    cout << "3. Update records" << endl;
-    cout << "4. Exit" << endl;
+void displayMenu(const vector<CarReport>& reports) 
+{
+    cout << "1) Display CSV" << endl;
+    cout << "2) Enter Vehicle Number" << endl;
+    cout << "3) Update Records" << endl;
+    cout << "4) Exit" << endl;
 }
-
-UserDetails getNewUserDetails() {
-    UserDetails newUser;
-
+void updateRecords(vector<CarReport>& reports) 
+{
+    string vNumber;
+    CarReport updatedReport;
+    cout << "Enter Vehicle Number for the record you want to update: ";
+    cin >> vNumber;
     cout << "Enter new details:" << endl;
-    cout << "First Name: ";
-    cin >> newUser.firstName;
-    cout << "Last Name: ";
-    cin >> newUser.lastName;
-    cout << "Age: ";
-    cin >> newUser.age;
-    cout << "Gender: ";
-    cin >> newUser.gender;
-    cout << "Address: ";
-    cin.ignore(); // Ignore newline character from previous input
-    getline(cin, newUser.address);
-
-    return newUser;
+    cout << "Report_Location: ";
+    getline(cin >> ws, updatedReport.reportLocation);
+    updateLoaction(reports, vNumber, updatedReport);
 }
